@@ -1,0 +1,17 @@
+# Blender MTL File: 'AirHawk.blend'
+# Material Count: 5
+
+newmtl Body
+Kd 0.000000 0.000000 0.800000
+
+newmtl Bottom
+Kd 0.289231 0.252308 0.800000
+
+newmtl Glass
+Kd 0.221538 0.274457 0.800000
+
+newmtl Sides
+Kd 0.000000 0.000000 0.000000
+
+newmtl Wings
+Kd 0.20000 0.50000 0.20000
