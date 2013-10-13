@@ -30,7 +30,6 @@ public class Tutorial14 extends Game
     public void init()
     {
         Display.setTitle("Tutorial 14: 3D Models");
-
         // Create the camera
         camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.1f, 100f);
         camera.setPosition(6, 0, 8);
@@ -44,8 +43,8 @@ public class Tutorial14 extends Game
 
         // Create shader program
         shaderProgram = new ShaderProgram();
-        shaderProgram.attachVertexShader("com/shc/tutorials/lwjgl/tutorial13/shader.vert");
-        shaderProgram.attachFragmentShader("com/shc/tutorials/lwjgl/tutorial13/shader.frag");
+        shaderProgram.attachVertexShader("com/shc/tutorials/lwjgl/tutorial14/shader.vert");
+        shaderProgram.attachFragmentShader("com/shc/tutorials/lwjgl/tutorial14/shader.frag");
         shaderProgram.link();
     }
 

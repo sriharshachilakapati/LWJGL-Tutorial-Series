@@ -196,6 +196,18 @@ public class Camera
     {
         return view;
     }
+    
+    /**
+     * @return the normal matrix
+     */
+    public Matrix4f getNormalMatrix()
+    {
+        Matrix4f mat = getViewMatrix();
+        mat.m30 = 0; mat.m31 = 0; mat.m32 = 0; mat.m33 = 1;
+        Matrix4f.invert(mat, mat);
+        Matrix4f.transpose(mat, mat);
+        return mat;
+    }
 
     /**
      * @return the position
