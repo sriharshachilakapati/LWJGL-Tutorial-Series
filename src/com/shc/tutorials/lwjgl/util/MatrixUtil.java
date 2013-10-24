@@ -6,8 +6,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.util.vector.Matrix4f;
 
 /**
- * A Simple utility class to deal with matrices 
- *  
+ * A Simple utility class to deal with matrices
+ * 
  * @author Sri Harsha Chilakapati
  */
 public class MatrixUtil
@@ -26,10 +26,15 @@ public class MatrixUtil
 
     /**
      * Generates a Perspective Projection Matrix
-     * @param fov The vertical field of view
-     * @param aspect The aspect ratio
-     * @param zNear The near plane
-     * @param zFar The far plane
+     * 
+     * @param fov
+     *            The vertical field of view
+     * @param aspect
+     *            The aspect ratio
+     * @param zNear
+     *            The near plane
+     * @param zFar
+     *            The far plane
      * @return
      */
     public static Matrix4f createPerspectiveProjection(float fov, float aspect, float zNear, float zFar)

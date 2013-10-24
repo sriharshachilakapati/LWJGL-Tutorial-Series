@@ -160,17 +160,25 @@ public class ShaderProgram
 
     /**
      * Sets a uniform matrix variable.
-     * @param name The name of the uniform.
-     * @param value The value of the matrix.
+     * 
+     * @param name
+     *            The name of the uniform.
+     * @param value
+     *            The value of the matrix.
      */
     public void setUniform(String name, Matrix4f value)
     {
         glUniformMatrix4(glGetUniformLocation(programID, name), false, MatrixUtil.toFloatBuffer(value));
     }
-    
+
     public void setUniform(String name, Vector3f value)
     {
         glUniform3f(glGetUniformLocation(programID, name), value.x, value.y, value.z);
+    }
+
+    public void setUniform(String name, float value)
+    {
+        glUniform1f(glGetUniformLocation(programID, name), value);
     }
 
 }

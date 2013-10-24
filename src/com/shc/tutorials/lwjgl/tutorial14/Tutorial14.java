@@ -11,7 +11,7 @@ import static org.lwjgl.input.Keyboard.*;
 
 /**
  * Tutorial 14: 3D Models
- *  
+ * 
  * @author Sri Harsha Chilakapati
  */
 public class Tutorial14 extends Game

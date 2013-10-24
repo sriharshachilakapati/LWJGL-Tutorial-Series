@@ -45,22 +45,10 @@ public class TexturedVBO
     {
         // Create buffers
         FloatBuffer vertices = BufferUtils.createFloatBuffer(2 * 4);
-        vertices.put(new float[] 
-        {
-            0, 0,
-            tex.width, 0,
-            tex.width, tex.height,
-            0, tex.height
-        });
+        vertices.put(new float[] { 0, 0, tex.width, 0, tex.width, tex.height, 0, tex.height });
 
         FloatBuffer texCoords = BufferUtils.createFloatBuffer(2 * 4);
-        texCoords.put(new float[]
-        {
-            0, 0,
-            1, 0,
-            1, 1,
-            0, 1
-        });
+        texCoords.put(new float[] { 0, 0, 1, 0, 1, 1, 0, 1 });
 
         vertices.rewind();
         texCoords.rewind();

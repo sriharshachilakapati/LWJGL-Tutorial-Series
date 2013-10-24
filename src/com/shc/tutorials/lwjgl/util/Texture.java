@@ -55,8 +55,7 @@ public class Texture
         BufferedImage bimg = null;
         try
         {
-            bimg = ImageIO.read(Texture.class.getClassLoader()
-                                             .getResourceAsStream(name));
+            bimg = ImageIO.read(Texture.class.getClassLoader().getResourceAsStream(name));
         }
         catch (IOException e)
         {
@@ -67,12 +66,10 @@ public class Texture
 
         // Gather all the pixels
         int[] pixels = new int[bimg.getWidth() * bimg.getHeight()];
-        bimg.getRGB(0, 0, bimg.getWidth(), bimg.getHeight(), pixels, 0,
-                    bimg.getWidth());
+        bimg.getRGB(0, 0, bimg.getWidth(), bimg.getHeight(), pixels, 0, bimg.getWidth());
 
         // Create a ByteBuffer
-        ByteBuffer buffer = BufferUtils.createByteBuffer(bimg.getWidth()
-                                                         * bimg.getHeight() * 4);
+        ByteBuffer buffer = BufferUtils.createByteBuffer(bimg.getWidth() * bimg.getHeight() * 4);
 
         // Iterate through all the pixels and add them to the ByteBuffer
         for (int y = 0; y < bimg.getHeight(); y++)
@@ -106,8 +103,7 @@ public class Texture
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         // Send texture data to OpenGL
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, bimg.getWidth(),
-                     bimg.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, bimg.getWidth(), bimg.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
 
         // Return a new Texture.
         return new Texture(textureID, bimg.getWidth(), bimg.getHeight());

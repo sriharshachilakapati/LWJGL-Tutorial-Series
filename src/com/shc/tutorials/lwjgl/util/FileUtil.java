@@ -33,10 +33,7 @@ public class FileUtil
         StringBuilder source = new StringBuilder();
         try
         {
-            BufferedReader reader = new BufferedReader(
-                                                       new InputStreamReader(
-                                                                             ShaderProgram.class.getClassLoader()
-                                                                                                .getResourceAsStream(name)));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(ShaderProgram.class.getClassLoader().getResourceAsStream(name)));
 
             String line;
             while ((line = reader.readLine()) != null)

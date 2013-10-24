@@ -51,22 +51,20 @@ public class Tutorial6 extends Game
         rect = BufferUtils.createFloatBuffer(2 * 4);
         tex = BufferUtils.createFloatBuffer(2 * 4);
 
-        rect.put(new float[] 
-        {
-            // X,   Y
-               0,   0,      // <- First vertex
-               100, 0,      // <- Second vertex
-               100, 100,    // <- Third vertex
-               0,   100     // <- Fourth vertex
+        rect.put(new float[] {
+                // X, Y
+        0, 0, // <- First vertex
+        100, 0, // <- Second vertex
+        100, 100, // <- Third vertex
+        0, 100 // <- Fourth vertex
         });
 
-        tex.put(new float[]
-        {
-            // X, Y
-               0, 0,     // <- First texture coord
-               1, 0,     // <- Second texture coord
-               1, 1,     // <- Third texture coord
-               0, 1      // <- Fourth texture coord
+        tex.put(new float[] {
+                // X, Y
+        0, 0, // <- First texture coord
+        1, 0, // <- Second texture coord
+        1, 1, // <- Third texture coord
+        0, 1 // <- Fourth texture coord
         });
     }
 

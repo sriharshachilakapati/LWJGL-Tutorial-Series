@@ -37,10 +37,14 @@ public class Camera
     /**
      * Creates a simple 3D Perspective Camera.
      * 
-     * @param fov The field of view in degrees.
-     * @param aspect The aspect ratio.
-     * @param zNear The near clipping plane.
-     * @param zFar The far clipping plane.
+     * @param fov
+     *            The field of view in degrees.
+     * @param aspect
+     *            The aspect ratio.
+     * @param zNear
+     *            The near clipping plane.
+     * @param zFar
+     *            The far clipping plane.
      */
     public Camera(float fov, float aspect, float zNear, float zFar)
     {
@@ -49,7 +53,7 @@ public class Camera
         this.aspect = aspect;
         this.zNear = zNear;
         this.zFar = zFar;
-        
+
         // Create matrices
         projection = MatrixUtil.createPerspectiveProjection(fov, aspect, zNear, zFar);
         view = MatrixUtil.createIdentityMatrix();
@@ -196,14 +200,17 @@ public class Camera
     {
         return view;
     }
-    
+
     /**
      * @return the normal matrix
      */
     public Matrix4f getNormalMatrix()
     {
         Matrix4f mat = getViewMatrix();
-        mat.m30 = 0; mat.m31 = 0; mat.m32 = 0; mat.m33 = 1;
+        mat.m30 = 0;
+        mat.m31 = 0;
+        mat.m32 = 0;
+        mat.m33 = 1;
         Matrix4f.invert(mat, mat);
         Matrix4f.transpose(mat, mat);
         return mat;
@@ -235,7 +242,8 @@ public class Camera
     }
 
     /**
-     * @param rotation the rotation to set
+     * @param rotation
+     *            the rotation to set
      */
     public void setRotation(Vector3f rotation)
     {

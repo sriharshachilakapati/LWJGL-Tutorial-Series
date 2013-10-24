@@ -1,4 +1,4 @@
-package com.shc.tutorials.lwjgl.tutorial15;
+package com.shc.tutorials.lwjgl.tutorial16;
 
 import org.lwjgl.opengl.Display;
 
@@ -11,17 +11,17 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.input.Keyboard.*;
 
 /**
- * Tutorial 15: Lighting
+ * Tutorial 16: Textured Models
  * 
  * @author Sri Harsha Chilakapati
  */
-public class Tutorial15 extends Game
+public class Tutorial16 extends Game
 {
 
     // The Camera
     Camera camera;
     // Our model
-    Model plane;
+    Model model;
     // The ShaderProgram
     ShaderProgram shaderProgram;
 
@@ -30,22 +30,18 @@ public class Tutorial15 extends Game
      */
     public void init()
     {
-        Display.setTitle("Tutorial 15: Lighting");
+        Display.setTitle("Tutorial 16: Textured Models");
         // Create the camera
         camera = new Camera(70, (float) Display.getWidth() / (float) Display.getHeight(), 0.1f, 100f);
         camera.setPosition(0, 0, -8);
-        // camera.setRotation(0, 135, 0);
 
         // Load the plane
-        plane = Model.loadOBJModel("resources/models/AirHawk.obj");
-
-        // Set the clear color to Corn-Flower Blue
-        glClearColor(0.39f, 0.58f, 0.929f, 1.0f);
+        model = Model.loadOBJModel("resources/models/TexturedCube.obj");
 
         // Create shader program
         shaderProgram = new ShaderProgram();
-        shaderProgram.attachVertexShader("com/shc/tutorials/lwjgl/tutorial15/shader.vert");
-        shaderProgram.attachFragmentShader("com/shc/tutorials/lwjgl/tutorial15/shader.frag");
+        shaderProgram.attachVertexShader("com/shc/tutorials/lwjgl/tutorial16/shader.vert");
+        shaderProgram.attachFragmentShader("com/shc/tutorials/lwjgl/tutorial16/shader.frag");
         shaderProgram.link();
 
         // Enable face culling
@@ -91,6 +87,15 @@ public class Tutorial15 extends Game
         // Strafe right
         if (isKeyDown(KEY_D))
             camera.move(-0.1f, 0);
+
+        // Move Up
+        if (isKeyDown(KEY_Z))
+            camera.addPosition(0, 0.1f, 0);
+
+        // Move Down
+        if (isKeyDown(KEY_X))
+            camera.addPosition(0, -0.1f, 0);
+        ;
     }
 
     /**
@@ -111,12 +116,13 @@ public class Tutorial15 extends Game
         shaderProgram.setUniform("mProjection", camera.getProjectionMatrix());
         shaderProgram.setUniform("mView", camera.getViewMatrix());
         shaderProgram.setUniform("lightPos", camera.getPosition());
+        shaderProgram.setUniform("texture", 0);
 
         // Normal matrix
         shaderProgram.setUniform("mNormal", camera.getNormalMatrix());
 
         // Render the model
-        plane.render();
+        model.render();
 
         // Unbind the shaders
         ShaderProgram.unbind();
@@ -135,13 +141,13 @@ public class Tutorial15 extends Game
      */
     public void dispose()
     {
-        plane.dispose();
+        model.dispose();
         shaderProgram.dispose();
     }
 
     public static void main(String[] args)
     {
-        new Tutorial15();
+        new Tutorial16();
     }
 
 }

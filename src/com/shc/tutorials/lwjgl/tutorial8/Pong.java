@@ -91,8 +91,7 @@ public class Pong extends Game
             paddle1.dx = 4;
 
         // Bounce ball when it hits paddles
-        if (ball.bounds.intersects(paddle1.bounds)
-            || ball.bounds.intersects(paddle2.bounds))
+        if (ball.bounds.intersects(paddle1.bounds) || ball.bounds.intersects(paddle2.bounds))
             ball.dy = -ball.dy;
 
         // Bounce ball when it hits window boundaries

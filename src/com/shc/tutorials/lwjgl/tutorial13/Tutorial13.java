@@ -55,86 +55,46 @@ public class Tutorial13 extends Game
 
         // Create Cube vertices
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(3 * 24);
-        vertexBuffer.put(new float[]
-        {
-            // Front face
-            -0.5f, +0.5f, +0.5f,
-            +0.5f, +0.5f, +0.5f,
-            -0.5f, -0.5f, +0.5f,
-            +0.5f, -0.5f, +0.5f,
+        vertexBuffer.put(new float[] {
+                // Front face
+        -0.5f, +0.5f, +0.5f, +0.5f, +0.5f, +0.5f, -0.5f, -0.5f, +0.5f, +0.5f, -0.5f, +0.5f,
 
-            // Right face
-            +0.5f, +0.5f, +0.5f,
-            +0.5f, +0.5f, -0.5f,
-            +0.5f, -0.5f, +0.5f,
-            +0.5f, -0.5f, -0.5f,
+                // Right face
+        +0.5f, +0.5f, +0.5f, +0.5f, +0.5f, -0.5f, +0.5f, -0.5f, +0.5f, +0.5f, -0.5f, -0.5f,
 
-            // Back face
-            +0.5f, +0.5f, -0.5f,
-            -0.5f, +0.5f, -0.5f,
-            +0.5f, -0.5f, -0.5f,
-            -0.5f, -0.5f, -0.5f,
+                // Back face
+        +0.5f, +0.5f, -0.5f, -0.5f, +0.5f, -0.5f, +0.5f, -0.5f, -0.5f, -0.5f, -0.5f, -0.5f,
 
-            // Left face
-            -0.5f, +0.5f, -0.5f,
-            -0.5f, +0.5f, +0.5f,
-            -0.5f, -0.5f, -0.5f,
-            -0.5f, -0.5f, +0.5f,
+                // Left face
+        -0.5f, +0.5f, -0.5f, -0.5f, +0.5f, +0.5f, -0.5f, -0.5f, -0.5f, -0.5f, -0.5f, +0.5f,
 
-            // Top face
-            -0.5f, +0.5f, +0.5f,
-            +0.5f, +0.5f, +0.5f,
-            -0.5f, +0.5f, -0.5f,
-            +0.5f, +0.5f, -0.5f,
+                // Top face
+        -0.5f, +0.5f, +0.5f, +0.5f, +0.5f, +0.5f, -0.5f, +0.5f, -0.5f, +0.5f, +0.5f, -0.5f,
 
-            // Bottom face
-            -0.5f, -0.5f, +0.5f,
-            +0.5f, -0.5f, +0.5f,
-            -0.5f, -0.5f, -0.5f,
-            +0.5f, -0.5f, -0.5f,
-        });
+                // Bottom face
+        -0.5f, -0.5f, +0.5f, +0.5f, -0.5f, +0.5f, -0.5f, -0.5f, -0.5f, +0.5f, -0.5f, -0.5f, });
         vertexBuffer.rewind();
 
         // Create cube colors
         FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(3 * 24);
-        colorBuffer.put(new float[] 
-        {
-            // Front face
-            1, 0, 0,
-            0, 1, 0,
-            0, 0, 1,
-            1, 0, 0,
+        colorBuffer.put(new float[] {
+                // Front face
+        1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0,
 
-            // Right face
-            0, 1, 0,
-            0, 0, 1,
-            1, 0, 0,
-            0, 1, 0,
+                // Right face
+        0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0,
 
-            // Back face
-            0, 0, 1,
-            1, 0, 0,
-            0, 1, 0,
-            0, 0, 1,
+                // Back face
+        0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1,
 
-            // Left face
-            1, 0, 0,
-            0, 1, 0,
-            0, 0, 1,
-            1, 0, 0,
+                // Left face
+        1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0,
 
-            // Top face
-            0, 1, 0,
-            0, 0, 1,
-            1, 0, 0,
-            0, 1, 0,
+                // Top face
+        0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0,
 
-            // Bottom face
-            0, 0, 1,
-            1, 0, 0,
-            0, 1, 0,
-            0, 0, 1
-        });
+                // Bottom face
+        0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1 });
         colorBuffer.rewind();
 
         // Create vertex VBO

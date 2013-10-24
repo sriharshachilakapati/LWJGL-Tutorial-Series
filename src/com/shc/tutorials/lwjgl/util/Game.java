@@ -28,9 +28,9 @@ public class Game
         {
             instance = this;
             Display.create();
-            setDisplayMode(800, 600);
             Display.setVSyncEnabled(true);
             Display.setResizable(true);
+            setDisplayMode(800, 600);
             gameLoop();
         }
         catch (LWJGLException e)
@@ -53,9 +53,7 @@ public class Game
         try
         {
             instance = this;
-            Display.create(new PixelFormat(),
-                           new ContextAttribs(majorGL, minorGL).withForwardCompatible(true)
-                                                               .withProfileCore(true));
+            Display.create(new PixelFormat(), new ContextAttribs(majorGL, minorGL).withForwardCompatible(true).withProfileCore(true));
             setDisplayMode(800, 600);
             Display.setVSyncEnabled(true);
             Display.setResizable(true);
@@ -162,13 +160,10 @@ public class Game
      * 
      * @return True if switching is successful. Else false.
      */
-    public static boolean setDisplayMode(int width, int height,
-                                         boolean fullscreen)
+    public static boolean setDisplayMode(int width, int height, boolean fullscreen)
     {
         // return if requested DisplayMode is already set
-        if ((Display.getDisplayMode().getWidth() == width)
-            && (Display.getDisplayMode().getHeight() == height)
-            && (Display.isFullscreen() == fullscreen))
+        if ((Display.getDisplayMode().getWidth() == width) && (Display.getDisplayMode().getHeight() == height) && (Display.isFullscreen() == fullscreen))
             return true;
 
         try
@@ -186,16 +181,13 @@ public class Game
                 for (DisplayMode current : modes)
                 {
                     // Make sure that the width and height matches
-                    if ((current.getWidth() == width)
-                        && (current.getHeight() == height))
+                    if ((current.getWidth() == width) && (current.getHeight() == height))
                     {
                         // Select the one with greater frequency
-                        if ((targetDisplayMode == null)
-                            || (current.getFrequency() >= freq))
+                        if ((targetDisplayMode == null) || (current.getFrequency() >= freq))
                         {
                             // Select the one with greater bits per pixel
-                            if ((targetDisplayMode == null)
-                                || (current.getBitsPerPixel() > targetDisplayMode.getBitsPerPixel()))
+                            if ((targetDisplayMode == null) || (current.getBitsPerPixel() > targetDisplayMode.getBitsPerPixel()))
                             {
                                 targetDisplayMode = current;
                                 freq = targetDisplayMode.getFrequency();
@@ -207,10 +199,7 @@ public class Game
                         // original display mode then it's probably best to go
                         // for this one
                         // since it's most likely compatible with the monitor
-                        if ((current.getBitsPerPixel() == Display.getDesktopDisplayMode()
-                                                                 .getBitsPerPixel())
-                            && (current.getFrequency() == Display.getDesktopDisplayMode()
-                                                                 .getFrequency()))
+                        if ((current.getBitsPerPixel() == Display.getDesktopDisplayMode().getBitsPerPixel()) && (current.getFrequency() == Display.getDesktopDisplayMode().getFrequency()))
                         {
                             targetDisplayMode = current;
                             break;
@@ -226,8 +215,7 @@ public class Game
 
             if (targetDisplayMode == null)
             {
-                System.out.println("Failed to find value mode: " + width + "x"
-                                   + height + " fs=" + fullscreen);
+                System.out.println("Failed to find value mode: " + width + "x" + height + " fs=" + fullscreen);
                 return false;
             }
 
@@ -235,8 +223,7 @@ public class Game
             Display.setDisplayMode(targetDisplayMode);
             Display.setFullscreen(fullscreen);
 
-            System.out.println("Selected DisplayMode: "
-                               + targetDisplayMode.toString());
+            System.out.println("Selected DisplayMode: " + targetDisplayMode.toString());
 
             // Generate a resized event
             instance.resized();
@@ -245,8 +232,7 @@ public class Game
         }
         catch (LWJGLException e)
         {
-            System.out.println("Unable to setup mode " + width + "x" + height
-                               + " fullscreen=" + fullscreen + e);
+            System.out.println("Unable to setup mode " + width + "x" + height + " fullscreen=" + fullscreen + e);
         }
 
         return false;

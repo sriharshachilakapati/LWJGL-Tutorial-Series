@@ -4,7 +4,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  * A simple material class
- *  
+ * 
  * @author Sri Harsha Chilakapati
  */
 public class Material

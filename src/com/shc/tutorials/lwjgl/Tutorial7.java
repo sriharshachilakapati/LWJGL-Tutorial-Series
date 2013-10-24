@@ -51,23 +51,11 @@ public class Tutorial7 extends Game
 
         // Create the buffers
         FloatBuffer vertices = BufferUtils.createFloatBuffer(2 * 4);
-        vertices.put(new float[]
-        {
-            0,   0,
-            800, 0,
-            800, 600,
-            0,   600
-        });
+        vertices.put(new float[] { 0, 0, 800, 0, 800, 600, 0, 600 });
         vertices.rewind();
 
         FloatBuffer texCoords = BufferUtils.createFloatBuffer(2 * 4);
-        texCoords.put(new float[]
-        {
-            0, 0,
-            1, 0,
-            1, 1,
-            0, 1
-        });
+        texCoords.put(new float[] { 0, 0, 1, 0, 1, 1, 0, 1 });
         texCoords.rewind();
 
         // Create the vbo

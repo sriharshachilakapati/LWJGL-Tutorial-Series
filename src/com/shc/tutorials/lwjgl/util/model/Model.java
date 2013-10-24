@@ -9,13 +9,15 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import com.shc.tutorials.lwjgl.util.FileUtil;
+import com.shc.tutorials.lwjgl.util.Texture;
 
 /**
  * A simple 3D Model class which can render models as VBOs
- *  
+ * 
  * @author Sri Harsha Chilakapati
  */
 public class Model
@@ -25,15 +27,24 @@ public class Model
     private List<Vector3f> vertices;
     // List of normals
     private List<Vector3f> normals;
+    // List of texture coords
+    private List<Vector2f> texCoords;
     // List of faces
     private List<Face> faces;
     // Map of materials
     private HashMap<String, Material> materials;
 
+    // Is this textured model?
+    private boolean isTextured = false;
+
+    // The texture of the model
+    private Texture texture;
+
     // VBO handles
     int vboVertexID;
     int vboNormalID;
     int vboColorID;
+    int vboTextureID;
 
     /**
      * A private constructor just to initialize variables.
@@ -42,6 +53,7 @@ public class Model
     {
         vertices = new ArrayList<Vector3f>();
         normals = new ArrayList<Vector3f>();
+        texCoords = new ArrayList<Vector2f>();
         faces = new ArrayList<Face>();
         materials = new HashMap<String, Material>();
     }
@@ -49,7 +61,8 @@ public class Model
     /**
      * Loads a 3D Model from a Wavefront (.OBJ) file.
      * 
-     * @param name The name of the file
+     * @param name
+     *            The name of the file
      * @return The loaded model
      */
     public static Model loadOBJModel(String name)
@@ -95,6 +108,22 @@ public class Model
                 Vector3f normal = new Vector3f(x, y, z);
                 m.getNormals().add(normal);
             }
+            // If the line starts with "vt" then it is a texture coord
+            else if (line.startsWith("vt "))
+            {
+                // Split the line
+                String[] values = line.split(" ");
+
+                // Parse the values
+                float x = Float.parseFloat(values[1]);
+                float y = Float.parseFloat(values[2]);
+
+                // Create the texCoord
+                Vector2f texCoord = new Vector2f(x, y);
+                m.getTextureCoords().add(texCoord);
+
+                m.isTextured = true;
+            }
             // If the line starts with "f" then it is a face
             else if (line.startsWith("f "))
             {
@@ -117,8 +146,23 @@ public class Model
                 // Create the normal
                 Vector3f normal = new Vector3f(vn1, vn2, vn3);
 
-                // Create the face
-                m.getFaces().add(new Face(vertex, normal, material));
+                if (m.isTextured)
+                {
+                    // Parse the texture indices
+                    float vt1 = Float.parseFloat(values[1].split("/")[1]);
+                    float vt2 = Float.parseFloat(values[2].split("/")[1]);
+                    float vt3 = Float.parseFloat(values[3].split("/")[1]);
+
+                    Vector3f texCoords = new Vector3f(vt1, vt2, vt3);
+
+                    // Create the face
+                    m.getFaces().add(new Face(vertex, normal, texCoords, material));
+                }
+                else
+                {
+                    // Create the face
+                    m.getFaces().add(new Face(vertex, normal, null, material));
+                }
             }
             // If the line starts with "mtllib" then it specifies the file
             // that contains the material definitions.
@@ -186,6 +230,12 @@ public class Model
                 // Set the color of the material
                 material.setDiffuse(color);
             }
+            // "map_Kd" defines a texture file
+            else if (line.startsWith("map_Kd "))
+            {
+                // Load the texture.
+                m.setTexture(Texture.loadTexture("resources/textures/" + line.replaceAll("map_Kd", "").trim()));
+            }
         }
 
         // Add the material to the list
@@ -202,10 +252,21 @@ public class Model
         vboVertexID = glGenBuffers();
         vboColorID = glGenBuffers();
 
+        if (isTextured)
+        {
+            vboTextureID = glGenBuffers();
+        }
+
         // Create the buffers
         FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(9 * faces.size());
         FloatBuffer normalBuffer = BufferUtils.createFloatBuffer(9 * faces.size());
         FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(9 * faces.size());
+
+        FloatBuffer textureBuffer = null;
+        if (isTextured)
+        {
+            textureBuffer = BufferUtils.createFloatBuffer(6 * faces.size());
+        }
 
         // Iterate over each face in the model and add them to the VBO
         for (Face face : faces)
@@ -217,25 +278,19 @@ public class Model
             Vector3f v1 = vertices.get((int) face.getVertex().x - 1);
             vertexBuffer.put(v1.x).put(v1.y).put(v1.z);
             // Get the color of the vertex
-            colorBuffer.put(material.getDiffuse().x)
-                       .put(material.getDiffuse().y)
-                       .put(material.getDiffuse().z);
+            colorBuffer.put(material.getDiffuse().x).put(material.getDiffuse().y).put(material.getDiffuse().z);
 
             // Get the second vertex of the face
             Vector3f v2 = vertices.get((int) face.getVertex().y - 1);
             vertexBuffer.put(v2.x).put(v2.y).put(v2.z);
             // Get the color of the face
-            colorBuffer.put(material.getDiffuse().x)
-                       .put(material.getDiffuse().y)
-                       .put(material.getDiffuse().z);
+            colorBuffer.put(material.getDiffuse().x).put(material.getDiffuse().y).put(material.getDiffuse().z);
 
             // Get the third vertex of the face
             Vector3f v3 = vertices.get((int) face.getVertex().z - 1);
             vertexBuffer.put(v3.x).put(v3.y).put(v3.z);
             // Get the color of the face
-            colorBuffer.put(material.getDiffuse().x)
-                       .put(material.getDiffuse().y)
-                       .put(material.getDiffuse().z);
+            colorBuffer.put(material.getDiffuse().x).put(material.getDiffuse().y).put(material.getDiffuse().z);
 
             // Get the first normal of the face
             Vector3f n1 = normals.get((int) face.getNormal().x - 1);
@@ -248,12 +303,32 @@ public class Model
             // Get the third normal of the face
             Vector3f n3 = normals.get((int) face.getNormal().z - 1);
             normalBuffer.put(n3.x).put(n3.y).put(n3.z);
+
+            if (isTextured)
+            {
+                // Get the first texCoords of the face
+                Vector2f t1 = texCoords.get((int) face.getTexCoord().x - 1);
+                textureBuffer.put(t1.x).put(1 - t1.y);
+
+                // Get the second texCoords of the face
+                Vector2f t2 = texCoords.get((int) face.getTexCoord().y - 1);
+                textureBuffer.put(t2.x).put(1 - t2.y);
+
+                // Get the third texCoords of the face
+                Vector2f t3 = texCoords.get((int) face.getTexCoord().z - 1);
+                textureBuffer.put(t3.x).put(1 - t3.y);
+            }
         }
 
         // Rewind the buffers
         vertexBuffer.rewind();
         normalBuffer.rewind();
         colorBuffer.rewind();
+
+        if (isTextured)
+        {
+            textureBuffer.rewind();
+        }
 
         // Create the vertex VBO
         glBindBuffer(GL_ARRAY_BUFFER, vboVertexID);
@@ -269,6 +344,14 @@ public class Model
         glBindBuffer(GL_ARRAY_BUFFER, vboColorID);
         glBufferData(GL_ARRAY_BUFFER, colorBuffer, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        if (isTextured)
+        {
+            // Create the texture VBO
+            glBindBuffer(GL_ARRAY_BUFFER, vboTextureID);
+            glBufferData(GL_ARRAY_BUFFER, textureBuffer, GL_STATIC_DRAW);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+        }
     }
 
     /**
@@ -280,6 +363,18 @@ public class Model
         glEnableClientState(GL_VERTEX_ARRAY);
         glEnableClientState(GL_NORMAL_ARRAY);
         glEnableClientState(GL_COLOR_ARRAY);
+
+        if (isTextured)
+        {
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, texture.id);
+
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+            // Bind the texture buffer
+            glBindBuffer(GL_ARRAY_BUFFER, vboTextureID);
+            glTexCoordPointer(2, GL_FLOAT, 0, 0);
+        }
 
         // Bind the normal buffer
         glBindBuffer(GL_ARRAY_BUFFER, vboNormalID);
@@ -300,6 +395,11 @@ public class Model
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_NORMAL_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);
+
+        if (isTextured)
+        {
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        }
     }
 
     /**
@@ -329,6 +429,14 @@ public class Model
     }
 
     /**
+     * @return The texture coordinates
+     */
+    public List<Vector2f> getTextureCoords()
+    {
+        return texCoords;
+    }
+
+    /**
      * @return The list of faces
      */
     public List<Face> getFaces()
@@ -342,6 +450,31 @@ public class Model
     public HashMap<String, Material> getMaterials()
     {
         return materials;
+    }
+
+    /**
+     * @return True if texture exists, else False
+     */
+    public boolean isTextured()
+    {
+        return isTextured;
+    }
+
+    /**
+     * @return the texture
+     */
+    public Texture getTexture()
+    {
+        return texture;
+    }
+
+    /**
+     * @param texture
+     *            the texture to set
+     */
+    public void setTexture(Texture texture)
+    {
+        this.texture = texture;
     }
 
 }
