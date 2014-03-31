@@ -20,41 +20,15 @@ public class Game
     private static long delta;
 
     /**
-     * A basic game.
+     * A simple Game
      */
     public Game()
     {
         try
         {
             instance = this;
-            Display.create();
-            Display.setVSyncEnabled(true);
-            Display.setResizable(true);
             setDisplayMode(800, 600);
-            gameLoop();
-        }
-        catch (LWJGLException e)
-        {
-            e.printStackTrace();
-            System.exit(-1);
-        }
-    }
-
-    /**
-     * Creates a game with a specific version of OpenGL context.
-     * 
-     * @param majorGL
-     *            The major OpenGL version.
-     * @param minorGL
-     *            The minor OpenGL version.
-     */
-    public Game(int majorGL, int minorGL)
-    {
-        try
-        {
-            instance = this;
-            Display.create(new PixelFormat(), new ContextAttribs(majorGL, minorGL).withForwardCompatible(true).withProfileCore(true));
-            setDisplayMode(800, 600);
+            Display.create(new PixelFormat(), new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true));
             Display.setVSyncEnabled(true);
             Display.setResizable(true);
             gameLoop();
