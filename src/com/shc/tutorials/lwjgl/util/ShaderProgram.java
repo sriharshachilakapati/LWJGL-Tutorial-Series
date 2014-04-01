@@ -3,7 +3,6 @@ package com.shc.tutorials.lwjgl.util;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
-import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -155,19 +154,6 @@ public class ShaderProgram
     public int getID()
     {
         return programID;
-    }
-
-    /**
-     * Sets a uniform matrix variable.
-     * 
-     * @param name
-     *            The name of the uniform.
-     * @param value
-     *            The value of the matrix.
-     */
-    public void setUniform(String name, Matrix4f value)
-    {
-        glUniformMatrix4(glGetUniformLocation(programID, name), false, MatrixUtil.toFloatBuffer(value));
     }
 
     public void setUniform(String name, Vector3f value)
