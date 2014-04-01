@@ -27,8 +27,8 @@ public class Game
         try
         {
             instance = this;
-            setDisplayMode(800, 600);
             Display.create(new PixelFormat(), new ContextAttribs(3, 2).withForwardCompatible(true).withProfileCore(true));
+            setDisplayMode(800, 600);
             Display.setVSyncEnabled(true);
             Display.setResizable(true);
             gameLoop();
@@ -91,10 +91,8 @@ public class Game
     /**
      * Sets a DisplayMode.
      * 
-     * @param mode
-     *            The DisplayMode.
-     * @param fullscreen
-     *            The fullscreen state.
+     * @param mode       The DisplayMode.
+     * @param fullscreen The fullscreen state.
      */
     public static boolean setDisplayMode(DisplayMode mode, boolean fullscreen)
     {
@@ -112,10 +110,8 @@ public class Game
     /**
      * Sets a windowed DisplayMode.
      * 
-     * @param width
-     *            The width of the display.
-     * @param height
-     *            The height of the display.
+     * @param width  The width of the display.
+     * @param height The height of the display.
      */
     public static boolean setDisplayMode(int width, int height)
     {
@@ -125,12 +121,9 @@ public class Game
     /**
      * Sets a DisplayMode after selecting for a better one.
      * 
-     * @param width
-     *            The width of the display.
-     * @param height
-     *            The height of the display.
-     * @param fullscreen
-     *            The fullscreen mode.
+     * @param width      The width of the display.
+     * @param height     The height of the display.
+     * @param fullscreen The fullscreen mode.
      * 
      * @return True if switching is successful. Else false.
      */
@@ -241,8 +234,7 @@ public class Game
     /**
      * Update the logic of the game.
      * 
-     * @param elapsedTime
-     *            Time elapsed since last frame.
+     * @param elapsedTime Time elapsed since last frame.
      */
     public void update(long elapsedTime)
     {

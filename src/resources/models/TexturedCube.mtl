@@ -1,6 +1,0 @@
-# Blender MTL File: 'TexturedCube.blend'
-# Material Count: 1
-
-newmtl Material
-Kd 0.640000 0.640000 0.640000
-map_Kd texture3.png

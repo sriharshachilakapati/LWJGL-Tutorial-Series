@@ -32,8 +32,7 @@ public class ShaderProgram
     /**
      * Attach a Vertex Shader to this program.
      * 
-     * @param name
-     *            The file name of the vertex shader.
+     * @param name The file name of the vertex shader.
      */
     public void attachVertexShader(String name)
     {
