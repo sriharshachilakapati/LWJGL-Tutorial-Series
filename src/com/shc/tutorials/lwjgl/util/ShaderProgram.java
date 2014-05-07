@@ -109,6 +109,41 @@ public class ShaderProgram
             Game.end();
         }
     }
+    
+    /**
+     * Sets the uniforms in this shader
+     * 
+     * @param name    The name of the uniform
+     * @param values  The values of the uniforms (Max 4)
+     */
+    public void setUniform(String name, float... values)
+    {
+        if (values.length > 4)
+        {
+            System.err.println("Uniforms cannot have more than 4 values");
+            Game.end();
+        }
+        
+        // Get the location of the uniform
+        int location = glGetUniformLocation(programID, name);
+        
+        // Set the uniform values
+        switch (values.length)
+        {
+            case 1:
+                glUniform1f(location, values[0]);
+                break;                
+            case 2:
+                glUniform2f(location, values[0], values[1]);
+                break;                
+            case 3:
+                glUniform3f(location, values[0], values[1], values[2]);
+                break;                
+            case 4:
+                glUniform4f(location, values[0], values[1], values[2], values[3]);
+                break;
+        }
+    }
 
     /**
      * Bind this program to use.
