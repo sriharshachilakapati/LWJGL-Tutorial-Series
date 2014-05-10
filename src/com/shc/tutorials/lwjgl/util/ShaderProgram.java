@@ -3,6 +3,8 @@ package com.shc.tutorials.lwjgl.util;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 
+import java.nio.FloatBuffer;
+
 /**
  * ShaderProgram Class. Used to load and use Vertex and Fragment shaders easily.
  * 
@@ -62,8 +64,7 @@ public class ShaderProgram
     /**
      * Attach a Fragment Shader to this program.
      * 
-     * @param name
-     *            The file name of the Fragment Shader.
+     * @param name The file name of the Fragment Shader.
      */
     public void attachFragmentShader(String name)
     {
@@ -143,6 +144,20 @@ public class ShaderProgram
                 glUniform4f(location, values[0], values[1], values[2], values[3]);
                 break;
         }
+    }
+    
+    /**
+     * Sets the uniform matrix in this shader.
+     * 
+     * @param name    The name of the uniform.
+     * @param matrix  FloatBuffer containing the matrix.
+     */
+    public void setUniform(String name, FloatBuffer matrix)
+    {
+        // Get the location
+        int location = glGetUniformLocation(programID, name);
+        // Set the uniform
+        glUniformMatrix4(location, false, matrix);
     }
 
     /**
