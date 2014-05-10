@@ -52,6 +52,16 @@ public class Transform
     }
     
     /**
+     * Scale by (sx, sy, sz) in the space
+     */
+    public Transform scale(float sx, float sy, float sz)
+    {
+        Matrix4f.scale(new Vector3f(sx, sy, sz), mat, mat);
+        
+        return this;
+    }
+    
+    /**
      * Rotate by (rx, ry, rz) in the space
      */
     public Transform rotate(float rx, float ry, float rz)
