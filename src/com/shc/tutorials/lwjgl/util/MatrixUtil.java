@@ -33,8 +33,8 @@ public class MatrixUtil
         mat.m00 = xScale;
         mat.m11 = yScale;
         mat.m22 = -((zFar + zNear) / frustumLength);
-        mat.m23 = -2;
-        mat.m32 = ((2 * zFar * zNear) / frustumLength);
+        mat.m23 = -1;
+        mat.m32 = -((2 * zFar * zNear) / frustumLength);
         mat.m33 = 0;
         
         return mat;
@@ -63,9 +63,9 @@ public class MatrixUtil
         mat.m00 = 2 / (right - left);
         mat.m11 = 2 / (top - bottom);
         mat.m22 = -2 / (zFar - zNear);
-        mat.m03 = -(right + left) / (right - left);
-        mat.m13 = -(top + bottom) / (top - bottom);
-        mat.m23 = -(zFar + zNear) / (zFar - zNear);
+        mat.m30 = -(right + left) / (right - left);
+        mat.m31 = -(top + bottom) / (top - bottom);
+        mat.m32 = -(zFar + zNear) / (zFar - zNear);
         mat.m33 = 1;
         
         return mat;
