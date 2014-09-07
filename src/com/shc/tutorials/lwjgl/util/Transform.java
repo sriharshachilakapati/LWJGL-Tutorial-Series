@@ -12,11 +12,14 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Sri Harsha Chilakapati
  */
 public class Transform
-{
+{    
     // The Matrix for this transform
     private Matrix4f mat;
     // The FloatBuffer to send the values to OpenGL
     private FloatBuffer fbuffer;
+    
+    private Vector3f position;
+    private Vector3f rotation;
     
     /**
      * Creates a new Transform that does nothing.
@@ -91,5 +94,15 @@ public class Transform
         fbuffer.rewind();
         
         return fbuffer;
+    }
+
+    public Vector3f getPosition()
+    {
+        return position;
+    }
+
+    public Vector3f getRotation()
+    {
+        return rotation;
     }
 }

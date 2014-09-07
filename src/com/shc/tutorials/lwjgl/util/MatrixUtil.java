@@ -49,7 +49,7 @@ public class MatrixUtil
      * @param top    Coordinates of the top horizontal clipping plane.
      * @param zNear  The distance to the near clipping plane.
      * @param zFar   The distance to the far clipping plane.
-     * 
+     *
      * @return An Orthographic projection matrix.
      */
     public static Matrix4f createOrthographic(float left,   float right,
@@ -70,5 +70,4 @@ public class MatrixUtil
         
         return mat;
     }
-
 }

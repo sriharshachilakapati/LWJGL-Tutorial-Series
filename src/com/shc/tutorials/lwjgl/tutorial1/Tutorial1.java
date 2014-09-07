@@ -68,7 +68,7 @@ public class Tutorial1 extends Game
         glVertexAttribPointer(0, 2, GL_FLOAT, false, 0, 0);
         
         // Unbind the VAO
-        glBindVertexArray(vaoID);
+        glBindVertexArray(0);
     }
     
     /**
