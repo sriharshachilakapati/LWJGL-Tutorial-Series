@@ -1,5 +1,8 @@
 package com.shc.tutorials.lwjgl;
 
+import org.lwjgl.glfw.Callbacks;
+import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.opengl.GLContext;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -11,7 +14,12 @@ import static org.lwjgl.system.MemoryUtil.*;
  */
 public class Game
 {
-    private long windowID;
+    private long    windowID;
+    private boolean running;
+
+    // The callbacks
+    GLFWErrorCallback errorCallback;
+    GLFWKeyCallback   keyCallback;
 
     public Game()
     {
@@ -64,11 +72,17 @@ public class Game
 
         last = 0;
 
+        // Set the callbacks
+        glfwSetErrorCallback(errorCallback = Callbacks.errorCallbackPrint(System.err));
+        glfwSetKeyCallback(windowID, keyCallback = GLFWKeyCallback(this::glfwKeyCallback));
+
         // Initialise the Game
         init();
 
+        running = true;
+
         // Loop continuously and render and update
-        while (glfwWindowShouldClose(windowID) != GL_TRUE)
+        while (running && glfwWindowShouldClose(windowID) != GL_TRUE)
         {
             // Get the time
             now = (float) glfwGetTime();
@@ -87,11 +101,28 @@ public class Game
         // Dispose the game
         dispose();
 
+        // Release the callbacks
+        errorCallback.release();
+
         // Destroy the window
         glfwDestroyWindow(windowID);
         glfwTerminate();
 
         System.exit(0);
+    }
+
+    public void end()
+    {
+        running = false;
+    }
+
+    // Callback functions which can be overriden
+
+    public void glfwKeyCallback(long window, int key, int scancode, int action, int mods)
+    {
+        // End on escape
+        if (key == GLFW_KEY_ESCAPE && action != GLFW_RELEASE)
+            end();
     }
 
     public static void main(String[] args)
