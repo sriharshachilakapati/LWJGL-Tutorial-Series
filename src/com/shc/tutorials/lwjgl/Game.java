@@ -1,25 +1,32 @@
 package com.shc.tutorials.lwjgl;
 
 import org.lwjgl.glfw.Callbacks;
+import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWScrollCallback;
 import org.lwjgl.opengl.GLContext;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.opengl.GL11.GL_FALSE;
+import static org.lwjgl.opengl.GL11.GL_TRUE;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 /**
  * @author Sri Harsha Chilakapati
  */
 public class Game
 {
-    private long    windowID;
-    private boolean running;
+    private static long    windowID;
+    private static boolean running;
 
     // The callbacks
-    GLFWErrorCallback errorCallback;
-    GLFWKeyCallback   keyCallback;
+    GLFWErrorCallback       errorCallback;
+    GLFWKeyCallback         keyCallback;
+    GLFWCursorPosCallback   cursorPosCallback;
+    GLFWMouseButtonCallback mouseButtonCallback;
+    GLFWScrollCallback      scrollCallback;
 
     public Game()
     {
@@ -72,9 +79,19 @@ public class Game
 
         last = 0;
 
+        // Create the callbacks
+        errorCallback = Callbacks.errorCallbackPrint(System.err);
+        keyCallback = GLFWKeyCallback(this::glfwKeyCallback);
+        cursorPosCallback = GLFWCursorPosCallback(this::glfwCursorPosCallback);
+        mouseButtonCallback = GLFWMouseButtonCallback(this::glfwMouseButtonCallback);
+        scrollCallback = GLFWScrollCallback(this::glfwScrollCallback);
+
         // Set the callbacks
-        glfwSetErrorCallback(errorCallback = Callbacks.errorCallbackPrint(System.err));
-        glfwSetKeyCallback(windowID, keyCallback = GLFWKeyCallback(this::glfwKeyCallback));
+        glfwSetErrorCallback(errorCallback);
+        glfwSetKeyCallback(windowID, keyCallback);
+        glfwSetCursorPosCallback(windowID, cursorPosCallback);
+        glfwSetMouseButtonCallback(windowID, mouseButtonCallback);
+        glfwSetScrollCallback(windowID, scrollCallback);
 
         // Initialise the Game
         init();
@@ -102,6 +119,10 @@ public class Game
         dispose();
 
         // Release the callbacks
+        keyCallback.release();
+        cursorPosCallback.release();
+        mouseButtonCallback.release();
+        scrollCallback.release();
         errorCallback.release();
 
         // Destroy the window
@@ -123,6 +144,30 @@ public class Game
         // End on escape
         if (key == GLFW_KEY_ESCAPE && action != GLFW_RELEASE)
             end();
+    }
+
+    public void glfwCursorPosCallback(long window, double xpos, double ypos)
+    {
+    }
+
+    public void glfwMouseButtonCallback(long window, int button, int action, int mods)
+    {
+    }
+
+    public void glfwScrollCallback(long window, double xoffset, double yoffset)
+    {
+    }
+
+    // Static helpful polled input methods
+
+    public static boolean isKeyPressed(int key)
+    {
+        return glfwGetKey(windowID, key) != GLFW_RELEASE;
+    }
+
+    public static boolean isMouseButtonPressed(int button)
+    {
+        return glfwGetMouseButton(windowID, button) != GLFW_RELEASE;
     }
 
     public static void main(String[] args)
