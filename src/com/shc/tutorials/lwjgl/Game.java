@@ -170,6 +170,11 @@ public class Game
         return glfwGetMouseButton(windowID, button) != GLFW_RELEASE;
     }
 
+    public static long getWindowID()
+    {
+        return windowID;
+    }
+
     public static void main(String[] args)
     {
         new Game().start();
