@@ -1,4 +1,4 @@
-package com.shc.tutorials.lwjgl;
+package com.shc.tutorials.lwjgl.intro3;
 
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
