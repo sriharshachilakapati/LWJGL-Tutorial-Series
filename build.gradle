@@ -1,0 +1,38 @@
+apply plugin: 'java'
+
+import org.gradle.internal.os.OperatingSystem
+
+switch ( OperatingSystem.current() ) {
+	case OperatingSystem.WINDOWS:
+		project.ext.lwjglNatives = "natives-windows"
+		break
+	case OperatingSystem.LINUX:
+		project.ext.lwjglNatives = "natives-linux"
+	break
+	case OperatingSystem.MAC_OS:
+		project.ext.lwjglNatives = "natives-macos"
+		break
+}
+
+project.ext.lwjglVersion = "3.1.2"
+project.ext.jomlVersion = "1.9.4"
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile "org.lwjgl:lwjgl:${lwjglVersion}"
+	compile "org.lwjgl:lwjgl-glfw:${lwjglVersion}"
+	compile "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}"
+	compile "org.lwjgl:lwjgl-openal:${lwjglVersion}"
+	compile "org.lwjgl:lwjgl-opengl:${lwjglVersion}"
+	compile "org.lwjgl:lwjgl-stb:${lwjglVersion}"
+	runtime "org.lwjgl:lwjgl:${lwjglVersion}:${lwjglNatives}"
+	runtime "org.lwjgl:lwjgl-glfw:${lwjglVersion}:${lwjglNatives}"
+	runtime "org.lwjgl:lwjgl-jemalloc:${lwjglVersion}:${lwjglNatives}"
+	runtime "org.lwjgl:lwjgl-openal:${lwjglVersion}:${lwjglNatives}"
+	runtime "org.lwjgl:lwjgl-opengl:${lwjglVersion}:${lwjglNatives}"
+	runtime "org.lwjgl:lwjgl-stb:${lwjglVersion}:${lwjglNatives}"
+	compile "org.joml:joml:${jomlVersion}"
+}
